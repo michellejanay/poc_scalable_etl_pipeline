@@ -1,0 +1,43 @@
+name: ${PROJECT_NAME}
+
+services:
+
+  grafana:
+    pull_policy: always
+    image: grafana/grafana
+    container_name: ${GRAFANA_CONTAINER_NAME}
+    env_file: .env
+    volumes:
+      - ./datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+    ports:
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
+    environment:
+      - GF_FEATURE_TOGGLES_ENABLE_LIVE_STREAM=false
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    pull_policy: always
+    image: postgres:16-alpine
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    env_file: .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      start_period: 0s
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+      image: adminer:latest
+      container_name: adminer
+      ports:
+        - ${ADMINER_PORT}:${ADMINER_PORT}
+      depends_on:
+        database:
+          condition: service_healthy
