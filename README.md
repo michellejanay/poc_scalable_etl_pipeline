@@ -57,7 +57,7 @@ Head over to<br>
 `localhost:8080`<br>
 in your browser. Use login details from environment file.<br>
 
-## How view Data in Grafa
+## How view Data in Grafana
 Head over to<br>
 `localhost:3000`<br>
 in your browser. Use login details from environment file.<br>
