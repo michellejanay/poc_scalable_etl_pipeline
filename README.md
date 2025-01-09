@@ -81,3 +81,7 @@ Select 'Postgres' as the datasource.
  
 
 ### Credits
+[Noor](https://github.com/Hunzaa)
+[Evans](https://github.com/e-ldn)
+[Adam](https://github.com/Adam5510)
+[Alex](https://github.com/AlexH1000598)
